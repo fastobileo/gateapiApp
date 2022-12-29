@@ -11,7 +11,6 @@ async function createDevice(req, res) {
         req.body.notifications.forEach(async notificationName => {
             await Notification.findOne({ "name": notificationName.name }).then(function (notification) {
                 if (notification) {
-                    console.log(notification.id);
                     notifications.push(notification.id);
                 }
                 var device = new Device({
@@ -50,7 +49,6 @@ async function actionDevice(req, res) {
         getter.send(device.body)
         getter.then(function (recive) {
             if (recive.status === 200) {
-                console.log(device.notifications)
                 device.notifications.forEach(function (notification) {
                     NotificationController.notify(notification.name, res.locals.user)
                 })

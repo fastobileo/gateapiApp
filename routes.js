@@ -8,7 +8,8 @@ const router = express.Router()
 //Users
 router.get("/users", UserController.authentificate, UserController.getAllUsers)
 router.get("/users/:username",UserController.authentificate,UserController.getUserByName)
-router.post("/users", UserController.authentificate , UserController.createUser)
+router.post("/users", UserController.authentificate , UserController.createUserAdmin)
+router.post("/createUser", UserController.createUser)
 
 //Notifications
 router.get("/notifications", UserController.authentificate , NotificationController.getAllNotifications)

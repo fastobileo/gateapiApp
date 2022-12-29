@@ -1,9 +1,9 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const dotenv = require('dotenv');
-const Bcrypt = require("bcryptjs");
-const routes = require("./routes") 
+const routes = require("./routes")
 const stringService = require("./services/StringService")
+
 
 const app = express()
 
@@ -14,6 +14,7 @@ mongoose
 		const app = express()
 		app.use(express.json())
 		app.use("/api", routes)
+
 
 		app.listen(4090, () => {
 			console.log("Server has started!")
