@@ -1,3 +1,4 @@
+const { render } = require("express/lib/response");
 const User = require("../models/User");
 const Bcrypt = require("bcryptjs");
 const AuthErrorMessage = "Invalid Authorization"
@@ -82,6 +83,26 @@ async function UserIsAdmin(user, res) {
     }
     return;
 }
+// views
+async function registerView(req, res, next) {
+    res.render("../views/register")
+}
+// views
+async function registerPost(req, res) {
+    try {
+        const password = await req.body.password;
+        var user = new User({
+            name: req.body.name,
+            firstName: req.body.firstName,
+            username: req.body.username,
+            password: Bcrypt.hashSync(password, 10)
+        })
+        user.save();
+        res.json(user);
+    }catch(e){
+        return res.status(400).send({ message: e });
+    }
+}
 
 module.exports.getUserByName = getUserByName;
 module.exports.getAllUsers = getAllUsers;
@@ -89,3 +110,8 @@ module.exports.createUserAdmin = createUserAdmin;
 module.exports.createUser = createUser;
 module.exports.authentificate = authentificate;
 module.exports.UserIsAdmin = UserIsAdmin;
+
+//views export
+module.exports.registerView = registerView;
+
+module.exports.registerPost = registerPost; 

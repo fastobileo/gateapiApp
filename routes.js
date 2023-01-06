@@ -4,6 +4,12 @@ const NotificationController = require("./controllers/NotificationController")
 const DeviceController = require("./controllers/DeviceController")
 const User = require("./models/User")
 const router = express.Router()
+// const bodyParser = require('body-parser');
+
+// router.use(bodyParser.json())
+// .use(bodyParser.urlencoded({
+//     extended: true
+// }));
 
 //Users
 router.get("/users", UserController.authentificate, UserController.getAllUsers)

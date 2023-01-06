@@ -2,6 +2,7 @@ const UserController = require("./UserController")
 const Notification = require("../models/Notification");
 const NotificationController = require("../controllers/NotificationController")
 const Device = require("../models/Device");
+const UserDeviceService = require("../services/UserDeviceService");
 const superagent = require('superagent');
 
 async function createDevice(req, res) {
@@ -42,6 +43,10 @@ async function getDeviceByName(req, res) {
 
 async function actionDevice(req, res) {
     await Device.findOne(({ name: req.params.name })).populate("notifications").then(function (device) {
+        if (UserDeviceService.isGranted(res.locals.user, device)) {
+            res.send({ "error": "Invalid Credentials" });
+            return;
+        }
         const getter = superagent.post(device.baseUrl);
         for (let deviceHeader in device.header) {
             getter.set(deviceHeader, device.header[deviceHeader])
